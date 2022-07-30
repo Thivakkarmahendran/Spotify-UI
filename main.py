@@ -4,6 +4,7 @@ import threading
 from flask import Flask, render_template, request, make_response, url_for, redirect
 
 from spotify.spotifyAPI import spotifyAPI
+from config import MAIN_CHECK_UPDATE, SPOTIFY_REFRESH_TIME
 
 
 app = Flask(__name__)
@@ -17,7 +18,7 @@ spotifyData = None
 def index():
     global spotifyData
     if spotifyData["playing"] == True:
-        return redirect('/spotify')
+        return redirect('/spotify', refresh_time=SPOTIFY_REFRESH_TIME)
     else:
         return redirect('/clock')
 
@@ -28,7 +29,7 @@ def clock():
 
 @app.route('/spotify', methods=['GET'])
 def spotify():
-    return render_template('spotify.html')
+    return render_template('spotify.html', refresh_time=SPOTIFY_REFRESH_TIME)
 
     
 @app.route('/spotifyData', methods=['GET','POST'])
@@ -41,19 +42,16 @@ def spotifyData():
 
 #CORE Code
 def checkUpdate():
-    threading.Timer(10.0, checkUpdate).start()
+    threading.Timer(MAIN_CHECK_UPDATE, checkUpdate).start()
     global spotifyData
     spotifyData = spotifyApi.getCurrentMusic()
     
-
-
 
 def intializeApp():
     global spotifyApi
     spotifyApi = spotifyAPI()
     checkUpdate()
     
-
 
 if __name__ == '__main__':
     intializeApp()

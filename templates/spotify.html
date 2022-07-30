@@ -59,6 +59,7 @@
     <script>
         
         function requestData(){
+            var refresh = '{{ refresh_time }}'
             var requests = $.get('/spotifyData');
             var tm = requests.done(function (result)
             {
@@ -73,7 +74,7 @@
                     window.location.href = '/';
                 }
                 
-                setTimeout(requestData, 5000);
+                setTimeout(requestData, refresh);
             });
         }
 

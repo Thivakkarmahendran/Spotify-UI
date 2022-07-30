@@ -2,3 +2,8 @@
 SPOTIFY_USERNAME = "mthivakkar"
 SPOTIFY_REDIRECT_URI = "http://127.0.0.1:8080/"
 
+#MAIN
+MAIN_CHECK_UPDATE = 10.0 #in seconds
+
+#SPOTIFY.HTML
+SPOTIFY_REFRESH_TIME = 5000 #milliseconds
