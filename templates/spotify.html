@@ -69,8 +69,11 @@
                     document.getElementById("artist").innerHTML = result.songArtist;
                     document.body.style.background = result.songBackgroundColor;
                 }
+                else{
+                    window.location.href = '/';
+                }
                 
-                setTimeout(requestData, 10000);
+                setTimeout(requestData, 5000);
             });
         }
 
