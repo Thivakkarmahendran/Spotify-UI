@@ -9,19 +9,24 @@ spotifyApi = None
 
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('spotify.html', songTitle='TEST1', songArtist='TEST12', songAlbumCover='TEST123')
+    return render_template('spotify.html')
     
     
 @app.route('/spotifyData', methods=['GET','POST'])
 def data():
-    response = make_response(json.dumps(spotifyApi.getCurrentMusic()))
-    response.content_type = 'application/json'
-    return response
+    spotifyData = spotifyApi.getCurrentMusic()
+    if spotifyData["playing"] == True:
+        response = make_response(json.dumps(spotifyApi.getCurrentMusic()))
+        response.content_type = 'application/json'
+        return response
+    else:
+        return ('', 204)
 
 
 def intializeApp():
     global spotifyApi
     spotifyApi = spotifyAPI()
+    spotifyApi.getCurrentMusic()
     
 
 

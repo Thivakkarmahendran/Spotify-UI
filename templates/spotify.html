@@ -3,10 +3,11 @@
 {% block content %}
 
     <div class="text-center">
-        <img src="...." class="rounded" alt="Abum Cover">
+        <img src="...." class="rounded" alt="Abum Cover" id="albumCover">
     </div>
 
-    <p id="demo"></p>
+    <h1 id="songTitle"> Song Title</h1>
+    <p id="songArtist"> Song Artist </p>
 
     <script>
         
@@ -14,8 +15,12 @@
             var requests = $.get('/spotifyData');
             var tm = requests.done(function (result)
             {
-                console.log("data: ", result);   
-                document.getElementById("demo").innerHTML = result;
+                //const songObject = JSON.parse(result) 
+
+                document.getElementById("albumCover").src=result.songAlbumArt;
+                document.getElementById("songTitle").innerHTML = result.songTitle;
+                document.getElementById("songArtist").innerHTML = result.songArtist;
+
                 setTimeout(requestData, 10000);
             });
         }
@@ -25,9 +30,5 @@
         };
 
     </script>
-
-    {{songTitle}}
-    {{songArtist}}
-    {{songAlbumCover}}
 
 {% endblock %}

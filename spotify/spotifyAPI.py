@@ -1,8 +1,5 @@
-
 import spotipy
 import spotipy.util as util
-from spotipy.oauth2 import SpotifyClientCredentials
-from spotipy.oauth2 import SpotifyOAuth
 from credentials import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_SCOPE
 
 
@@ -15,8 +12,24 @@ class spotifyAPI:
         self.spotifyApi = spotipy.Spotify(auth=SPOTIFY_TOKEN)
         
     def getCurrentMusic(self):
-        playback = self.spotifyApi.current_playback()
-        return playback
+        currentMusic = {}
+        
+        try:
+            playback = self.spotifyApi.current_playback()
+            
+            if playback != None:
+                currentMusic["playing"] = True
+                currentMusic["songTitle"] = playback["item"]["album"]["name"]
+                currentMusic["songArtist"] = playback["item"]["album"]["artists"][0]["name"]
+                currentMusic["songAlbumArt"] = playback["item"]["album"]["images"][0]["url"]
+                
+            else:
+                currentMusic["playing"] = False
+        except Exception as e:
+            print("spotifyAPI.getCurrentMusic() - An exception occurred: {}".format(str(e)))
+            currentMusic["playing"] = False
+        
+        return currentMusic
     
     
     
