@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="text-center">
+        <img src="...." class="rounded" alt="Abum Cover">
+    </div>
+
+    <p id="demo"></p>
+
+    <script>
+        
+        function requestData(){
+            var requests = $.get('/spotifyData');
+            var tm = requests.done(function (result)
+            {
+                console.log("data: ", result);   
+                document.getElementById("demo").innerHTML = result;
+                setTimeout(requestData, 10000);
+            });
+        }
+
+        window.onload = function() {
+            requestData();
+        };
+
+    </script>
+
+    {{songTitle}}
+    {{songArtist}}
+    {{songAlbumCover}}
+
+{% endblock %}
