@@ -2,12 +2,48 @@
 
 {% block content %}
 
-    <div class="text-center">
-        <img src="...." class="rounded" alt="Abum Cover" id="albumCover">
+    <div class="page_wrap">
+        <div class="text-center">
+            <img src="...." alt="Abum Cover" class="image" id="albumCover">
+        </div>
+        </div>
+
+        <h1 id="songTitle"> Song Title</h1>
+        <p id="songArtist"> Song Artist </p>
     </div>
 
-    <h1 id="songTitle"> Song Title</h1>
-    <p id="songArtist"> Song Artist </p>
+    <style>
+        .page_wrap
+        {
+            display: flex;
+            flex-flow: column nowrap;
+            align-items: center;
+            margin-right: auto;
+            margin-left: auto;
+            vertical-align: middle;
+
+        }
+        .image {
+            box-shadow: 1px 1px 16px -2px rgba(0, 0, 0, .3);
+            height: auto;
+            max-width: 60vw;
+            width: 100%;
+            float: left;
+        }
+        h1 { 
+            color: white;
+            font-weight: bold;
+        }
+        p { 
+            text-align: center;
+            color: white;
+        }
+        body
+        {
+            text-align: center;
+        }
+    </style>
+
 
     <script>
         
@@ -15,12 +51,12 @@
             var requests = $.get('/spotifyData');
             var tm = requests.done(function (result)
             {
-                //const songObject = JSON.parse(result) 
-
-                document.getElementById("albumCover").src=result.songAlbumArt;
-                document.getElementById("songTitle").innerHTML = result.songTitle;
-                document.getElementById("songArtist").innerHTML = result.songArtist;
-
+                if(result.playing){
+                    document.getElementById("albumCover").src=result.songAlbumArt;
+                    document.getElementById("songTitle").innerHTML = result.songTitle;
+                    document.getElementById("songArtist").innerHTML = result.songArtist;
+                    document.body.style.background = result.songBackgroundColor;
+                }
                 setTimeout(requestData, 10000);
             });
         }

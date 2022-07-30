@@ -1,1 +1,2 @@
 spotipy==2.20.0
+colorthief==0.2.1

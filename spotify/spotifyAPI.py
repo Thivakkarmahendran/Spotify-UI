@@ -2,6 +2,11 @@ import spotipy
 import spotipy.util as util
 from credentials import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_SCOPE
 
+import numpy as np
+from urllib.request import urlopen
+from colorthief import ColorThief
+import io
+
 
 class spotifyAPI:
 
@@ -16,13 +21,12 @@ class spotifyAPI:
         
         try:
             playback = self.spotifyApi.current_playback()
-            
             if playback != None:
                 currentMusic["playing"] = True
                 currentMusic["songTitle"] = playback["item"]["album"]["name"]
                 currentMusic["songArtist"] = playback["item"]["album"]["artists"][0]["name"]
                 currentMusic["songAlbumArt"] = playback["item"]["album"]["images"][0]["url"]
-                
+                currentMusic["songBackgroundColor"] = self.getColorPalette(currentMusic["songAlbumArt"])
             else:
                 currentMusic["playing"] = False
         except Exception as e:
@@ -31,7 +35,13 @@ class spotifyAPI:
         
         return currentMusic
     
+    def getColorPalette(self, imageUrl):
+        fd = urlopen(imageUrl)
+        f = io.BytesIO(fd.read())
+        color_thief = ColorThief(f)
+        return "rgb{}".format(color_thief.get_color(quality=1))
     
+
     
 
 
