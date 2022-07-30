@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div id="time" class="clock"></div>
+    <body onload="DisplayCurrentTime()">
+
+    <script>
+        
+        function DisplayCurrentTime() {
+            var date = new Date();
+            var hours = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
+            var am_pm = date.getHours() >= 12 ? "PM" : "AM";
+            hours = hours < 10 ? "0" + hours : hours;
+            var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+            time = hours + ":" + minutes+ " " + am_pm;
+            var lblTime = document.getElementById("time");
+            lblTime.innerHTML = time;
+
+            var requests = $.get('/spotifyData');
+            var tm = requests.done(function (result)
+            {
+                if(result.playing){
+                    window.location.href = '/';
+                }
+            });
+
+            setTimeout(DisplayCurrentTime, 15000);
+        }
+
+    </script>
+    
+    <style>
+        body {
+            background-color: black;
+            text-align: center;       
+        }
+        .clock{
+            color: white;
+            left: 0;
+            line-height: 200px;
+            margin-top: -100px;
+            position: absolute;
+            text-align: center;
+            top: 50%;
+            width: 100%;
+            font-size: 10vw;
+        }
+    
+    </style>
+        
+
+
+
+{% endblock %}

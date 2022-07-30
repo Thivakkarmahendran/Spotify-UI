@@ -23,7 +23,7 @@ class spotifyAPI:
             playback = self.spotifyApi.current_playback()
             if playback != None:
                 currentMusic["playing"] = True
-                currentMusic["songTitle"] = playback["item"]["album"]["name"]
+                currentMusic["songTitle"] = playback["item"]["name"]
                 currentMusic["songArtist"] = playback["item"]["album"]["artists"][0]["name"]
                 currentMusic["songAlbumArt"] = playback["item"]["album"]["images"][0]["url"]
                 currentMusic["songBackgroundColor"] = self.getColorPalette(currentMusic["songAlbumArt"])
