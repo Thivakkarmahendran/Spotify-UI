@@ -15,7 +15,6 @@ def index():
 @app.route('/spotifyData', methods=['GET','POST'])
 def data():
     spotifyData = spotifyApi.getCurrentMusic()
-    print(spotifyData, flush=True)
     if spotifyData["playing"] == True:
         response = make_response(json.dumps(spotifyData))
         response.content_type = 'application/json'

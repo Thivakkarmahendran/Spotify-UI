@@ -2,46 +2,57 @@
 
 {% block content %}
 
-    <div class="page_wrap">
-        <div class="text-center">
-            <img src="...." alt="Abum Cover" class="image" id="albumCover">
-        </div>
-        </div>
+    <div class="now-playing">
 
-        <h1 id="songTitle"> Song Title</h1>
-        <p id="songArtist"> Song Artist </p>
+        <div class="now-playing__cover">
+            <img src="https://i.scdn.co/image/ab67616d0000b273a77cf2710291f0531f9e76f1" alt="Abum Cover" class="now-playing__image" id="image">
+        </div>
+        
+        <div class="now-playing__details">
+            <h1 class="now-playing__track" id="track"> Song Title</h1>
+            <h2 class="now-playing__artists" id="artist"> Song Artist </h2>
+        </div>
+       
+    
     </div>
 
     <style>
-        .page_wrap
-        {
+        .now-playing {
             display: flex;
-            flex-flow: column nowrap;
-            align-items: center;
-            margin-right: auto;
-            margin-left: auto;
-            vertical-align: middle;
-
+            /*flex-flow: column nowrap;*/
+            height: 100%;
+            padding: 1.5rem;
+            width: 100%;
         }
-        .image {
+
+        .now-playing .now-playing__cover, .now-playing .now-playing__details{
+            padding: 1rem;
+            text-align: center;
+            width: 100%;
+        }
+
+        .now-playing .now-playing__cover{
+            max-width: 400px;
+        }
+
+        .now-playing .now-playing__cover .now-playing__image{
             box-shadow: 1px 1px 16px -2px rgba(0, 0, 0, .3);
             height: auto;
             max-width: 60vw;
             width: 100%;
-            float: left;
+            border-radius: 25px;
         }
-        h1 { 
-            color: white;
-            font-weight: bold;
-        }
-        p { 
+
+        .now-playing .now-playing__details{
             text-align: center;
             color: white;
         }
-        body
-        {
-            text-align: center;
+
+        a:active{
+            align-items: center;
+            justify-content: center;
         }
+
     </style>
 
 
@@ -51,12 +62,14 @@
             var requests = $.get('/spotifyData');
             var tm = requests.done(function (result)
             {
+                
                 if(result.playing){
-                    document.getElementById("albumCover").src=result.songAlbumArt;
-                    document.getElementById("songTitle").innerHTML = result.songTitle;
-                    document.getElementById("songArtist").innerHTML = result.songArtist;
+                    document.getElementById("image").src=result.songAlbumArt;
+                    document.getElementById("track").innerHTML = result.songTitle;
+                    document.getElementById("artist").innerHTML = result.songArtist;
                     document.body.style.background = result.songBackgroundColor;
                 }
+                
                 setTimeout(requestData, 10000);
             });
         }
