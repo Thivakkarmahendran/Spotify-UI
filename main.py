@@ -3,7 +3,7 @@ import threading
 
 from flask import Flask, render_template, request, make_response, url_for, redirect
 
-from spotify.spotifyAPI import spotifyAPI
+from API.spotify.spotifyAPI import spotifyAPI
 
 
 app = Flask(__name__)
