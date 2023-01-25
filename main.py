@@ -13,6 +13,7 @@ spotifyApi = None
 spotifyData = None
 cricketData = None
 
+currentScreen = None
 
 # FLASK endpoints:
 
@@ -64,14 +65,17 @@ def checkSwitch():
     if cricketData["liveGame"] == True:
         response = make_response(json.dumps("cricket"))
         response.content_type = 'application/json'
+        currentScreen = "cricket"
         return response
     elif spotifyData["playing"] == True:
         response = make_response(json.dumps("spotify"))
         response.content_type = 'application/json'
+        currentScreen = "spotify"
         return response
     else:
         response = make_response(json.dumps("clock"))
         response.content_type = 'application/json'
+        currentScreen = "clock"
         return response
     
 

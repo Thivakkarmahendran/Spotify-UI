@@ -7,13 +7,17 @@ from requests.exceptions import HTTPError
 
 def updateCricketData():
     try:
-        #response = requests.get('https://hs-consumer-api.espncricinfo.com/v1/pages/matches/current?latest=true')
-        #response.raise_for_status()
-        #jsonResponse = response.json()
+       
         
-        f = open('API/crikcet/sampleScore1.json')
-        jsonResponse = json.load(f)
-            
+        #For testing
+        #f = open('API/crikcet/sampleScore1.json')
+        #jsonResponse = json.load(f)
+        
+        response = requests.get('https://hs-consumer-api.espncricinfo.com/v1/pages/matches/current?latest=true')
+        response.raise_for_status()
+        jsonResponse = response.json()
+        
+        
         return parseData(jsonResponse)
     
     except HTTPError as http_err:
@@ -31,7 +35,7 @@ def updateCricketData():
 
 def isInterestedGame(game):
     
-    interestedTeams = ["IND", "SA"]
+    interestedTeams = ["IND"]
     interestedSeries = ["IPL", "T20 World Cup"]
     
     if game["status"] != "Live":
@@ -43,11 +47,11 @@ def isInterestedGame(game):
     if game["series"]["alternateName"] in interestedSeries:
         return True
     
-    if game["teams"][0]["team"]["abbreviation"] not in interestedTeams and game["teams"][1]["team"]["abbreviation"] not in interestedTeams:
-        return False
+    if game["teams"][0]["team"]["abbreviation"] in interestedTeams or game["teams"][1]["team"]["abbreviation"] in interestedTeams:
+        return True
     
     
-    return True
+    return False
 
 
 def parseData(data):
