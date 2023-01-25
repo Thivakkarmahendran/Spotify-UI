@@ -72,9 +72,17 @@
                 else{
                     window.location.href = '/';
                 }
-                
-                setTimeout(requestData, 5000);
             });
+
+            var requests = $.get('/checkSwitch');
+            var tm = requests.done(function (result)
+            {
+                if(result != "spotify"){
+                    window.location.href = '/';
+                }
+            });
+
+            setTimeout(requestData, 5000);
         }
 
         window.onload = function() {

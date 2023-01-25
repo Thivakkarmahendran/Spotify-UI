@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="cricket-screen">
+
+        <div class="teamA">
+            <img class="teamA-logo" alt="" id="teamALogo" src="https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_160,q_50/lsci//db/PICTURES/CMS/340500/340505.png">
+            <p id="teamAName">Team A</p>
+        </div>
+
+        <div class="score">
+            <div class="teamA-score">
+                <h5 id="teamA_run">185/5</h5>
+                <h6 id="teamA_over">(20)</h6>
+            </div>
+            <div class="teamB-score">
+                <h5 id="teamB_run">172/7</h5>
+                <h6 id="teamB_over">(20)</h6>
+            </div>
+        </div>
+        
+
+        <div class="teamB">
+            <img class="teamB-logo" alt="" id="teamBLogo" src="https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_160,q_50/lsci//db/PICTURES/CMS/317600/317615.png">
+            <p id="teamBName">Team B</p>
+        </div>
+
+    
+    </div>
+
+    <style>
+
+        body {
+            background-color: whitesmoke;
+        }
+        
+        .cricket-screen{
+            display: grid;
+            grid-template-columns: auto auto auto;
+            padding: 10px;
+            column-gap: 50px;
+        }
+
+        .cricket-screen .teamA, .cricket-screen .teamB, .cricket-screen  .score {
+            padding: 20px;
+        }
+
+        .cricket-screen .teamA .teamA-logo, .cricket-screen .teamB .teamB-logo{
+            box-shadow: 1px 1px 16px -2px rgba(0, 0, 0, .3);
+            border-radius: 25px;
+        }
+
+        .cricket-screen .teamA p, .cricket-screen .teamB p{
+            text-align: center;
+        }
+
+        .cricket-screen .score .teamB-score, .cricket-screen .score .teamA-score{
+            display:inline-block;
+            align-items: center;
+        }
+
+    
+
+    </style>
+
+    <script>
+    
+        function requestData(){
+                
+            var requests = $.get('/cricketData');
+            var tm = requests.done(function (result)
+                {
+
+                    if(result.liveGame){
+                        document.getElementById("teamALogo").src=result.teamALogo;
+                        document.getElementById("teamAName").innerHTML = result.teamAName;
+
+                        document.getElementById("teamBLogo").src=result.teamBLogo;
+                        document.getElementById("teamBName").innerHTML = result.teamBName;
+                        
+                        //document.getElementById("track").innerHTML = result.songTitle;
+                        //document.getElementById("artist").innerHTML = result.songArtist;
+                        //document.body.style.background = result.songBackgroundColor;
+                    }
+                    else{
+                        window.location.href = '/';
+                    }
+                });
+
+            var requests = $.get('/checkSwitch');
+            var tm = requests.done(function (result) {
+                if(result != "cricket"){
+                    window.location.href = '/';
+                }
+            });
+
+            setTimeout(requestData, 5000);
+        }
+
+        window.onload = function() {
+            requestData();
+        };
+            
+
+        
+    </script>
+
+{% endblock %}

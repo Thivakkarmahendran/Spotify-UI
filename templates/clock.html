@@ -17,15 +17,16 @@
             var lblTime = document.getElementById("time");
             lblTime.innerHTML = time;
 
-            var requests = $.get('/spotifyData');
+            var requests = $.get('/checkSwitch');
             var tm = requests.done(function (result)
             {
-                if(result.playing){
+                if(result != "clock"){
                     window.location.href = '/';
                 }
             });
+         
 
-            setTimeout(DisplayCurrentTime, 15000);
+            setTimeout(DisplayCurrentTime, 1000);
         }
 
     </script>
